@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Book1.xlsx
+/ResourceConverter - コピー/ConvertFormPartsInfo.cs
+/ResourceConverter - コピー/Program.cs
+/ResourceConverter - コピー/Properties/launchSettings.json
+/ResourceConverter - コピー/ResourceConverter.csproj
+/ResourceConverter/Properties/launchSettings.json
