@@ -96,7 +96,7 @@ namespace ResourceConverter
 
         public ConvertFormPartsInfo() => currentPartsInfos_ = PARTS_UNKNOWN;
 
-        public List<string> convert(string line)
+        public List<string> Convert(string line)
         {
             var result = new List<string>();
             var rgx = currentPartsInfos_.GetEnumerator();

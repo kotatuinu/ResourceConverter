@@ -41,12 +41,20 @@ namespace RCConverter
 
             List<string>.Enumerator line = lines.GetEnumerator();
 
-            var converter = new ConvertFormPartsInfo();
-            var convertList = new List<string>();
+
+            var partsInfoBuilder = new PartsInfoBuilder();
+            var converter = partsInfoBuilder.GetPartsInfo();
+            var convertList = new List<List<string>>();
             while (line.MoveNext())
             {
                 Debug.WriteLine(line.Current);
-                convertList = converter.convert(line.Current);
+                var result = converter.Convert(line.Current);
+                if (result.Item1.Count > 0)
+                {
+                    convertList.Add(result.Item1);
+                }
+
+                converter = partsInfoBuilder.GetPartsInfo(result.Item2);
             }
 
             Debug.WriteLine("END.");
