@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ResourceConverter
 {
-    class PartsInfoFormParams : PartsInfo
+    public class PartsInfoFormParams : PartsInfo
     {
         public PartsInfoFormParams()
         {

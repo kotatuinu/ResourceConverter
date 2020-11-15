@@ -2,7 +2,7 @@
 
 namespace ResourceConverter
 {
-    class PartsInfoBuilder
+    public class PartsInfoBuilder
     {
         readonly Dictionary<PartsInfo.RESOURCE_STATUE, PartsInfo> ResourceKind2PartsInfo_ = new Dictionary<PartsInfo.RESOURCE_STATUE, PartsInfo> {
                     { PartsInfo.RESOURCE_STATUE.UNKNOWN, new PartsInfoForm() },

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ResourceConverter
 {
-    abstract class PartsInfo
+    abstract public class PartsInfo
     {
         public enum RESOURCE_STATUE
         {
@@ -76,7 +76,6 @@ namespace ResourceConverter
 
         private bool GetMatchPartsInfo(string line, out PARTS_INFO partsInfo)
         {
-            var result = new List<string>();
             var rgx = currentPartsInfos_.GetEnumerator();
 
             while (rgx.MoveNext())
@@ -93,8 +92,7 @@ namespace ResourceConverter
 
         public (List<string>, RESOURCE_STATUE) Convert(string line)
         {
-            PARTS_INFO partsInfo;
-            if (GetMatchPartsInfo(line, out partsInfo))
+            if (GetMatchPartsInfo(line, out PARTS_INFO partsInfo))
             {
                 var result = Convert(line, partsInfo);
                 return (result, partsInfo.NextPartsKind);

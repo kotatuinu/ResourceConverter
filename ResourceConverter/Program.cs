@@ -30,13 +30,11 @@ namespace RCConverter
             // ファイルを1行ずつ読み込む→既定の内容の場合、それに対応した処理を行う
             using (FileStream fs = new FileStream(args[0], FileMode.Open))
             {
-                using (StreamReader reader = new StreamReader(fs))
+                using StreamReader reader = new StreamReader(fs);
+                while (!reader.EndOfStream)
                 {
-                    while (!reader.EndOfStream)
-                    {
-                        lines.Add(reader.ReadLine());
-                    };
-                }
+                    lines.Add(reader.ReadLine());
+                };
             }
 
             List<string>.Enumerator line = lines.GetEnumerator();
