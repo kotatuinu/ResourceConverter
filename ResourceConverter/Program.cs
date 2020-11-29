@@ -42,12 +42,12 @@ namespace RCConverter
 
             var partsInfoBuilder = new PartsInfoBuilder();
             var converter = partsInfoBuilder.GetPartsInfo();
-            var convertList = new List<List<string>>();
+            var convertList = new List<PartsInfo.RESULT_LIST>();
             while (line.MoveNext())
             {
                 Debug.WriteLine(line.Current);
                 var result = converter.Convert(line.Current);
-                if (result.Item1.Count > 0)
+                if (result.Item1.ParamGroupMap.Count > 0)
                 {
                     convertList.Add(result.Item1);
                 }

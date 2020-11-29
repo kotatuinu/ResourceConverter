@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ResourceConverter
 {
-    abstract public class PartsInfo
+    public abstract partial class PartsInfo
     {
         public enum RESOURCE_STATUE
         {
@@ -90,7 +90,7 @@ namespace ResourceConverter
             return false;
         }
 
-        public (List<string>, RESOURCE_STATUE) Convert(string line)
+        public (RESULT_LIST, RESOURCE_STATUE) Convert(string line)
         {
             if (GetMatchPartsInfo(line, out PARTS_INFO partsInfo))
             {
@@ -98,27 +98,35 @@ namespace ResourceConverter
                 return (result, partsInfo.NextPartsKind);
             }
 
-            return (new List<string>(), RESOURCE_STATUE.UNKNOWN);
+            return (new RESULT_LIST(), RESOURCE_STATUE.UNKNOWN);
         }
 
-        private List<string> Convert(string line, PARTS_INFO partsInfo)
+        private RESULT_LIST Convert(string line, PARTS_INFO partsInfo)
         {
-            var result = new List<string>();
+            var paramGroupMap = new Dictionary<string, List<string>>();
 
-            var match = partsInfo.Rgx.Match(line);
-            for (int ctr = 1; ctr < match.Groups.Count; ctr++)
+            if (partsInfo.Rgx.IsMatch(line))
             {
-                //Debug.Print("   Group {0}: '{1}'", ctr, match.Groups[ctr].Value);
-                int capCtr = 0;
-                foreach (Capture capture in match.Groups[ctr].Captures)
+                var match = partsInfo.Rgx.Match(line);
+                for (int ctr = 1; ctr < match.Groups.Count; ctr++)
                 {
-                    Debug.Print("      Capture {0}: '{1}'", capCtr, capture.Value);
-                    result.Add(capture.Value);
-                    capCtr++;
+                    Debug.Print("   Group {0}: name={1}, '{2}'", ctr, match.Groups[ctr].Name, match.Groups[ctr].Value);
+                    if (match.Groups[ctr].Captures.Count > 0)
+                    {
+                        int capCtr = 0;
+                        var paramList = new List<string>();
+                        foreach (Capture capture in match.Groups[ctr].Captures)
+                        {
+                            Debug.Print("      Capture {0}: '{1}'", capCtr, capture.Value);
+                            paramList.Add(capture.Value);
+                            capCtr++;
+                        }
+                        paramGroupMap.Add(match.Groups[ctr].Name, paramList);
+                    }
                 }
             }
 
-            return result;
+            return new RESULT_LIST(partsInfo.PartsKind, paramGroupMap);
         }
     }
 }

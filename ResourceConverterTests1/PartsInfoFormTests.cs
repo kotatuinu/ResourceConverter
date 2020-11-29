@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace ResourceConverter.Tests
 {
@@ -11,7 +12,7 @@ namespace ResourceConverter.Tests
             PartsInfoForm info = new PartsInfoForm();
 
             var result = info.Convert("");
-            Assert.IsTrue(result.Item1.Count == 0);
+            Assert.IsTrue(result.Item1 == new PartsInfo.RESULT_LIST());
         }
 
         [TestMethod()]
@@ -20,13 +21,21 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoForm();
 
             var result = info.Convert("IDD_ABOUTBOX DIALOG 0, 0, 170, 62");
-            Assert.IsTrue(result.Item1.Count == 6);
-            Assert.IsTrue(result.Item1[0] == "IDD_ABOUTBOX");
-            Assert.IsTrue(result.Item1[1] == "DIALOG");
-            Assert.IsTrue(result.Item1[2] == "0");
-            Assert.IsTrue(result.Item1[3] == "0");
-            Assert.IsTrue(result.Item1[4] == "170");
-            Assert.IsTrue(result.Item1[5] == "62");
+            var ans = new PartsInfo.RESULT_LIST(
+                        PartsInfo.PARTSKIND.FORM,
+                        new Dictionary<string, List<string>>{
+                            {
+                                "1",
+                                new List<string>{ "IDD_ABOUTBOX", }},
+                            {
+                                "2",
+                                new List<string>{ "DIALOG", }},
+                            {
+                                "size",
+                                new List<string>{ "0", "0", "170", "62", }},
+            });
+            Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORM);
+            Assert.IsTrue(result.Item1 == ans);
         }
 
         [TestMethod()]
@@ -35,13 +44,21 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoForm();
 
             var result = info.Convert("IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62");
-            Assert.IsTrue(result.Item1.Count == 6);
-            Assert.IsTrue(result.Item1[0] == "IDD_ABOUTBOX");
-            Assert.IsTrue(result.Item1[1] == "DIALOGEX");
-            Assert.IsTrue(result.Item1[2] == "0");
-            Assert.IsTrue(result.Item1[3] == "0");
-            Assert.IsTrue(result.Item1[4] == "170");
-            Assert.IsTrue(result.Item1[5] == "62");
+            var ans = new PartsInfo.RESULT_LIST(
+                        PartsInfo.PARTSKIND.FORM,
+                        new Dictionary<string, List<string>>{
+                            {
+                                "1",
+                                new List<string>{ "IDD_ABOUTBOX", } },
+                            {
+                                "2",
+                                new List<string>{ "DIALOGEX", } },
+                            {
+                                "size",
+                                new List<string>{ "0", "0", "170", "62", } },
+            });
+            Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORM);
+            Assert.IsTrue(result.Item1 == ans);
         }
     }
 }

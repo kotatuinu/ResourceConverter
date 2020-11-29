@@ -10,7 +10,7 @@ namespace ResourceConverter
         public PartsInfoForm()
         {
             currentPartsInfos_ = new List<PARTS_INFO>  {
-                new PARTS_INFO(PARTSKIND.FORM, @"^\w+\s+DIALOG(EX){0,1}\s+", @"^(\w+)\s+(DIALOG(?:EX){0,1})\s+(\d+),\s*(\d+),\s*(\d+),\s*(\d+)$", RESOURCE_STATUE.FORM),
+                new PARTS_INFO(PARTSKIND.FORM, @"^\w+\s+DIALOG(EX){0,1}\s+", @"^(\w+)\s+(DIALOG(?:EX){0,1})\s+(?<size>\d+)(?:,\s*(?<size>\d+)){3}$", RESOURCE_STATUE.FORM),
             };
         }
     }

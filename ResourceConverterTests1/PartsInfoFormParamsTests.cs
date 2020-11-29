@@ -15,7 +15,7 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoFormParams();
 
             var result = info.Convert("");
-            Assert.IsTrue(result.Item1.Count == 0);
+            Assert.IsTrue(result.Item1 == new PartsInfo.RESULT_LIST());
         }
 
         [TestMethod()]
@@ -24,19 +24,18 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoFormParams();
 
             var result = info.Convert(@"CAPTION ""バージョン情報 WindowsProject1""");
-            var iteResult = result.Item1.GetEnumerator();
-            var ansList = new List<string>
-            {
-                "CAPTION",
-                "バージョン情報 WindowsProject1",
-            };
+            var ans = new PartsInfo.RESULT_LIST(
+                    PartsInfo.PARTSKIND.FORMCAPTION,
+                        new Dictionary<string, List<string>> {
+                            { "1",
+                                new List<string> {
+                                    "CAPTION", }},
+                            { "2",
+                                new List<string> {
+                                    "バージョン情報 WindowsProject1", } }
+                        });
             Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORM);
-            Assert.IsTrue(result.Item1.Count == ansList.Count);
-            ansList.ForEach(item =>
-            {
-                Assert.IsTrue(iteResult.MoveNext());
-                Assert.IsTrue(item == iteResult.Current);
-            });
+            Assert.IsTrue(result.Item1 == ans);
         }
 
         [TestMethod()]
@@ -45,24 +44,22 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoFormParams();
 
             var result = info.Convert(@"STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU");
-            var iteResult = result.Item1.GetEnumerator();
-            var ansList = new List<string>
-            {
-                "STYLE",
-                "DS_SETFONT",
-                "DS_MODALFRAME",
-                "DS_FIXEDSYS",
-                "WS_POPUP",
-                "WS_CAPTION",
-                "WS_SYSMENU",
-            };
+            var ans = new PartsInfo.RESULT_LIST(
+                    PartsInfo.PARTSKIND.FORMSTYLE,
+                       new Dictionary<string, List<string>>{
+                           { "1",
+                            new List<string>{"STYLE"} },
+                           { "param1",
+                            new List<string>{
+                                "DS_SETFONT",
+                                "DS_MODALFRAME",
+                                "DS_FIXEDSYS",
+                                "WS_POPUP",
+                                "WS_CAPTION",
+                                "WS_SYSMENU",} },
+                    } );
             Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORM);
-            Assert.IsTrue(result.Item1.Count == ansList.Count);
-            ansList.ForEach(item =>
-            {
-                Assert.IsTrue(iteResult.MoveNext());
-                Assert.IsTrue(item == iteResult.Current);
-            });
+            Assert.IsTrue(result.Item1 == ans);
         }
 
         [TestMethod()]
@@ -71,23 +68,24 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoFormParams();
 
             var result = info.Convert(@"FONT 9, ""MS UI Gothic"", 0, 0, 0x1");
-            var iteResult = result.Item1.GetEnumerator();
-            var ansList = new List<string>
-            {
-                "FONT",
-                "9",
-                "MS UI Gothic",
-                "0",
-                "0",
-                "0x1",
-            };
-            Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORM);
-            Assert.IsTrue(result.Item1.Count == ansList.Count);
-            ansList.ForEach(item =>
-            {
-                Assert.IsTrue(iteResult.MoveNext());
-                Assert.IsTrue(item == iteResult.Current);
+            var ans = new PartsInfo.RESULT_LIST(
+                        PartsInfo.PARTSKIND.FORMFONT,
+                            new Dictionary<string, List<string>> {
+                                { "1",
+                                new List<string>{"FONT",} },
+                                { "2",
+                                new List<string>{"9",} },
+                                { "3",
+                                new List<string>{ "MS UI Gothic",} },
+                                { "4",
+                                new List<string>{ "0",} },
+                                { "5",
+                                new List<string>{ "0",} },
+                                { "6",
+                                new List<string>{ "0x1",} },
             });
+            Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORM);
+            Assert.IsTrue(result.Item1 == ans);
         }
 
         [TestMethod()]
@@ -96,18 +94,14 @@ namespace ResourceConverter.Tests
             var info = new PartsInfoFormParams();
 
             var result = info.Convert(@"BEGIN");
-            var iteResult = result.Item1.GetEnumerator();
-            var ansList = new List<string>
-            {
-                "BEGIN",
-            };
-            Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORMPARTS);
-            Assert.IsTrue(result.Item1.Count == ansList.Count);
-            ansList.ForEach(item =>
-            {
-                Assert.IsTrue(iteResult.MoveNext());
-                Assert.IsTrue(item == iteResult.Current);
+            var ans = new PartsInfo.RESULT_LIST(
+                        PartsInfo.PARTSKIND.FORMBEGIN,
+                            new Dictionary<string, List<string>>{
+                                { "1",
+                                new List<string>{ "BEGIN", } },
             });
+            Assert.IsTrue(result.Item2 == PartsInfo.RESOURCE_STATUE.FORMPARTS);
+            Assert.IsTrue(result.Item1 == ans);
         }
     }
 }
